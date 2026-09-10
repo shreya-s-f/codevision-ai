@@ -135,39 +135,58 @@ export default function Dashboard() {
       </div>
 
       {/* 4 STAT CARDS FROM MOCKUP #4 */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard
-          label="Total Reviews"
-          value={String(stats.total_reviews ?? 12)}
-          delta="+2 this week"
-          icon={FileCode}
-          tone="blue"
-          delay={0}
-        />
-        <StatCard
-          label="Issues Found"
-          value={String(stats.issues_found ?? stats.open_issues ?? 8)}
-          delta={`${stats.critical_findings || 3} High • 5 Low`}
-          icon={Bug}
-          tone="amber"
-          delay={0.05}
-        />
-        <StatCard
-          label="Suggestions"
-          value={String(stats.suggestions ?? 10)}
-          delta="7 Applied"
-          icon={Lightbulb}
-          tone="violet"
-          delay={0.1}
-        />
-        <StatCard
-          label="Projects"
-          value={String(stats.projects ?? stats.connected_repositories ?? 4)}
-          delta="All active"
-          icon={FolderGit2}
-          tone="green"
-          delay={0.15}
-        />
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        {/* Total Reviews */}
+        <div className="card p-5 border-sky-500/20 bg-base-surface/80 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-400/30 flex items-center justify-center text-sky-400 shrink-0">
+            <Sparkles size={20} />
+          </div>
+          <div>
+            <p className="text-2xl sm:text-3xl font-display font-bold text-ink-hi leading-tight">
+              {stats.total_reviews ?? 12}
+            </p>
+            <p className="text-xs text-ink-low mt-0.5 font-medium">Total Reviews</p>
+          </div>
+        </div>
+
+        {/* Issues Found */}
+        <div className="card p-5 border-red-500/20 bg-base-surface/80 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-red-500/10 border border-red-400/30 flex items-center justify-center text-red-400 shrink-0">
+            <Bug size={20} />
+          </div>
+          <div>
+            <p className="text-2xl sm:text-3xl font-display font-bold text-ink-hi leading-tight">
+              {stats.issues_found ?? stats.open_issues ?? 8}
+            </p>
+            <p className="text-xs text-ink-low mt-0.5 font-medium">Issues Found</p>
+          </div>
+        </div>
+
+        {/* Suggestions */}
+        <div className="card p-5 border-purple-500/20 bg-base-surface/80 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-400/30 flex items-center justify-center text-purple-400 shrink-0">
+            <Lightbulb size={20} />
+          </div>
+          <div>
+            <p className="text-2xl sm:text-3xl font-display font-bold text-ink-hi leading-tight">
+              {stats.suggestions ?? 10}
+            </p>
+            <p className="text-xs text-ink-low mt-0.5 font-medium">Suggestions</p>
+          </div>
+        </div>
+
+        {/* Projects */}
+        <div className="card p-5 border-indigo-500/20 bg-base-surface/80 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-400/30 flex items-center justify-center text-indigo-400 shrink-0">
+            <FolderGit2 size={20} />
+          </div>
+          <div>
+            <p className="text-2xl sm:text-3xl font-display font-bold text-ink-hi leading-tight">
+              {stats.projects ?? stats.connected_repositories ?? 4}
+            </p>
+            <p className="text-xs text-ink-low mt-0.5 font-medium">Projects</p>
+          </div>
+        </div>
       </div>
 
       {/* 2-COLUMN SECTION FROM MOCKUP #4: RECENT ACTIVITY & KEEP IMPROVING */}

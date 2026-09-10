@@ -246,8 +246,8 @@ export default function Landing() {
 
             {/* Two Action Buttons matching reference */}
             <div className="flex flex-wrap items-center gap-4">
-              <Link to="/signup" className="btn-primary !py-3.5 !px-8 rounded-full text-base font-semibold shadow-glow">
-                Get Started <ArrowRight size={16} />
+              <Link to="/signup" className="btn-primary !py-3.5 !px-8 rounded-full text-base font-semibold shadow-glow flex items-center gap-2">
+                Get Started →
               </Link>
               <a
                 href="#workflow"
@@ -405,7 +405,17 @@ export default function Landing() {
         </div>
       </section>
 
-
+      {/* ABOUT SECTION MATCHING SAAS SPEC */}
+      <section id="about" className="py-20 border-t border-base-border bg-base-surface/30">
+        <div className="container-xl max-w-4xl text-center">
+          <SectionHeading
+            eyebrow="About CodeVision.ai"
+            title="A clean interface for a smarter tomorrow."
+            desc="CodeVision.ai combines deep static analysis rules with LLM reasoning to automate code reviews, catch vulnerabilities before production, and generate ready-to-merge patches."
+            align="center"
+          />
+        </div>
+      </section>
 
       {/* BOTTOM CALL TO ACTION */}
       <section className="py-24 text-center border-t border-base-border relative overflow-hidden">
