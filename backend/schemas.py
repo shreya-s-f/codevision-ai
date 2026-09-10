@@ -75,3 +75,28 @@ class RepoOut(BaseModel):
 class FixApplyRequest(BaseModel):
     issue_id: str
     action: Optional[str] = "apply"  # apply or validate
+
+class PullRequestReview(BaseModel):
+    pr_id: str
+    repo_name: str
+    pr_number: int
+    title: str
+    author: str
+    status: str
+    score: int
+    diff: str
+    issues_found: int
+    comments_posted: int
+
+class PRReviewRequest(BaseModel):
+    repo_id: str
+    pr_number: int
+    post_comment: Optional[bool] = True
+
+class PasswordResetRequest(BaseModel):
+    email: str
+
+class PasswordResetConfirm(BaseModel):
+    email: str
+    reset_token: str
+    new_password: str

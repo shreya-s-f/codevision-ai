@@ -234,19 +234,19 @@ export default function Landing() {
             </div>
 
             {/* Main Title matching reference */}
-            <h1 className="h-display text-4xl sm:text-6xl lg:text-[4rem] leading-[1.08] tracking-tight font-extrabold mb-5">
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[62px] leading-[1.08] tracking-tight font-extrabold mb-5 text-ink-hi">
               AI Code Review <br />
               <span className="grad-text">Assistant</span>
             </h1>
 
             {/* Description matching reference */}
-            <p className="text-ink-mid text-base sm:text-lg leading-relaxed max-w-xl mb-8">
+            <p className="text-ink-mid text-base sm:text-[17px] leading-[1.65] max-w-[620px] mb-8 font-normal">
               CodeVision.ai helps developers check their code, find possible problems, understand errors, and improve their code with helpful suggestions.
             </p>
 
             {/* Two Action Buttons matching reference */}
             <div className="flex flex-wrap items-center gap-4">
-              <Link to="/signup" className="btn-primary !py-3 !px-7 rounded-full text-sm font-semibold shadow-glow">
+              <Link to="/signup" className="btn-primary !py-3.5 !px-8 rounded-full text-base font-semibold shadow-glow">
                 Get Started <ArrowRight size={16} />
               </Link>
               <a

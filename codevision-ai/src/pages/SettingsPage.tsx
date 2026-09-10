@@ -21,6 +21,15 @@ function Toggle({ defaultOn = false }: { defaultOn?: boolean }) {
 }
 
 export default function SettingsPage() {
+  const [saved, setSaved] = useState(false)
+  const [name, setName] = useState('Shreya Fakirapur')
+  const [email, setEmail] = useState('shreya@codevision.ai')
+
+  const handleSave = () => {
+    setSaved(true)
+    setTimeout(() => setSaved(false), 2000)
+  }
+
   return (
     <AppShell title="Settings" subtitle="Account, integrations, and notification preferences">
       <div className="grid lg:grid-cols-3 gap-6">
@@ -30,14 +39,27 @@ export default function SettingsPage() {
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <label className="text-xs text-ink-mid mb-1.5 block">Full name</label>
-                <input defaultValue="Shreya Fakirapur" className="input-field text-sm" />
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="input-field text-sm"
+                />
               </div>
               <div>
                 <label className="text-xs text-ink-mid mb-1.5 block">Email</label>
-                <input defaultValue="shreya@codevision.ai" className="input-field text-sm" />
+                <input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="input-field text-sm"
+                />
               </div>
             </div>
-            <button className="btn-primary text-sm mt-5 !py-2.5">Save changes</button>
+            <button
+              onClick={handleSave}
+              className="btn-primary text-sm mt-5 !py-2.5 flex items-center gap-2"
+            >
+              {saved ? '✓ Changes saved!' : 'Save changes'}
+            </button>
           </div>
 
           <div className="card p-6">

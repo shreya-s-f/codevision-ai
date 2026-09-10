@@ -24,8 +24,8 @@ export default function SectionHeading({
         <span className="w-6 h-px bg-gradient-to-r from-blue-glow to-violet-glow" />
         {eyebrow}
       </span>
-      <h2 className="h-display text-3xl md:text-[2.5rem] leading-tight mb-4">{title}</h2>
-      {desc && <p className="text-ink-mid text-[15px] leading-relaxed">{desc}</p>}
+      <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-[34px] leading-snug mb-3.5 text-ink-hi">{title}</h2>
+      {desc && <p className="text-ink-mid text-base leading-relaxed max-w-[620px] font-normal">{desc}</p>}
     </motion.div>
   )
 }

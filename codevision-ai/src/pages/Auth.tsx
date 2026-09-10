@@ -381,7 +381,7 @@ export default function AuthPage({ initialMode = 'login' }: { initialMode?: 'log
                 <button
                   type="submit"
                   disabled={loading}
-                  className="btn-primary w-full text-sm mt-2 flex items-center justify-center gap-2 font-semibold"
+                  className="btn-primary w-full text-base mt-2 flex items-center justify-center gap-2 font-semibold"
                 >
                   {loading ? (
                     <Loader2 size={16} className="animate-spin" />
@@ -443,14 +443,14 @@ export default function AuthPage({ initialMode = 'login' }: { initialMode?: 'log
               </div>
 
               {/* Bottom footer toggle */}
-              <div className="text-center text-xs text-ink-low">
+              <div className="text-center text-sm text-ink-low">
                 {isLogin ? (
                   <span>
                     Don't have an account?{' '}
                     <button
                       type="button"
                       onClick={() => { setIsLogin(false); setErrorMsg(''); setSuccessMsg('') }}
-                      className="text-sky-400 hover:text-sky-300 font-semibold ml-1"
+                      className="text-sky-400 hover:text-sky-300 font-semibold"
                     >
                       Register
                     </button>
@@ -461,9 +461,9 @@ export default function AuthPage({ initialMode = 'login' }: { initialMode?: 'log
                     <button
                       type="button"
                       onClick={() => { setIsLogin(true); setErrorMsg(''); setSuccessMsg('') }}
-                      className="text-purple-400 hover:text-purple-300 font-semibold ml-1"
+                      className="text-sky-400 hover:text-sky-300 font-semibold"
                     >
-                      Login
+                      Sign In
                     </button>
                   </span>
                 )}

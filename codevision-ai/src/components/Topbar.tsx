@@ -34,14 +34,28 @@ export default function Topbar({ title, subtitle }: { title: string; subtitle?: 
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="hidden sm:flex items-center gap-2 bg-base-surface2 border border-base-border rounded-xl px-3 py-2 w-60">
-            <Search size={14} className="text-ink-low" />
-            <input placeholder="Search..." className="bg-transparent text-xs outline-none placeholder:text-ink-low w-full text-ink-hi" />
-          </div>
+          <button
+            onClick={() => {
+              window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true, bubbles: true }))
+            }}
+            className="hidden sm:flex items-center justify-between gap-2 bg-base-surface2 border border-base-border hover:border-sky-400/40 rounded-xl px-3 py-2 w-64 text-left transition-colors cursor-pointer group"
+          >
+            <div className="flex items-center gap-2">
+              <Search size={14} className="text-ink-low group-hover:text-sky-400 transition-colors" />
+              <span className="text-xs text-ink-low">Search reviews, repos...</span>
+            </div>
+            <kbd className="text-[10px] font-mono px-1.5 py-0.5 rounded border border-base-border bg-base-surface text-ink-low">Ctrl K</kbd>
+          </button>
 
           <ThemeToggle />
 
-          <button className="relative w-9 h-9 rounded-xl bg-base-surface2 border border-base-border flex items-center justify-center text-ink-mid hover:text-ink-hi transition-colors" aria-label="Notifications">
+          <button
+            onClick={() => {
+              alert("System Notifications:\n• Review completed for medilink-api: 0 critical vulnerabilities remaining.\n• GitHub PR #248 synced with automated review.\n• Database integrity check passed.")
+            }}
+            className="relative w-9 h-9 rounded-xl bg-base-surface2 border border-base-border flex items-center justify-center text-ink-mid hover:text-ink-hi transition-colors cursor-pointer"
+            aria-label="Notifications"
+          >
             <Bell size={15} />
             <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-signal-green" />
           </button>

@@ -182,8 +182,38 @@ export const api = {
     findings_count: number
     created_at: string
   }>> {
-    const res = await fetch(`${API_BASE_URL}/history`, { headers: getAuthHeaders() })
+    const res = await fetch(`${API_BASE_URL}/history`, {
+      headers: getAuthHeaders(),
+    })
+    if (!res.ok) throw new Error('Could not fetch history')
+    return res.json()
+  },
+
+  async forgotPassword(email: string): Promise<{ success: boolean; message: string }> {
+    const res = await fetch(`${API_BASE_URL}/auth/forgot-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    })
+    if (!res.ok) throw new Error('Failed to request password reset')
+    return res.json()
+  },
+
+  async getPullRequests(): Promise<any[]> {
+    const res = await fetch(`${API_BASE_URL}/github/pulls`, {
+      headers: getAuthHeaders(),
+    })
     if (!res.ok) return []
+    return res.json()
+  },
+
+  async reviewPullRequest(repoId: string, prNumber: number, postComment = true): Promise<any> {
+    const res = await fetch(`${API_BASE_URL}/github/pulls/review`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ repo_id: repoId, pr_number: prNumber, post_comment: postComment }),
+    })
+    if (!res.ok) throw new Error('Pull request review failed')
     return res.json()
   },
 }

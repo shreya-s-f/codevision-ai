@@ -40,7 +40,7 @@ export default function Navbar() {
             <a
               key={l.label}
               href={l.href}
-              className="text-sm font-medium text-ink-mid hover:text-sky-400 transition-colors"
+              className="text-base font-semibold text-ink-mid hover:text-sky-400 transition-colors"
             >
               {l.label}
             </a>
@@ -51,20 +51,20 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-4">
           <ThemeToggle />
           {isAuthenticated ? (
-            <Link to="/app" className="btn-primary text-xs !py-2 !px-4.5 rounded-full">
-              Dashboard <ArrowRight size={14} />
+            <Link to="/app" className="btn-primary text-sm !py-2.5 !px-5 rounded-full font-semibold">
+              Dashboard <ArrowRight size={15} />
             </Link>
           ) : (
             <>
               <Link
                 to="/login"
-                className="text-sm font-medium text-ink-hi hover:text-sky-400 transition-colors px-2"
+                className="text-base font-semibold text-ink-hi hover:text-sky-400 transition-colors px-2"
               >
                 Login
               </Link>
               <button
                 onClick={() => navigate('/signup')}
-                className="btn-primary text-xs !py-2 !px-4.5 rounded-full font-semibold"
+                className="btn-primary text-sm !py-2.5 !px-5 rounded-full font-semibold"
               >
                 Get Started
               </button>

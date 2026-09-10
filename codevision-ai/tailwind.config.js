@@ -43,10 +43,10 @@ export default {
         },
       },
       fontFamily: {
-        display: ['"Syne"', 'sans-serif'],
+        display: ['"Urbanist"', 'sans-serif'],
         sans: ['"Urbanist"', 'sans-serif'],
         body: ['"Urbanist"', 'sans-serif'],
-        mono: ['"Roboto Mono"', 'monospace'],
+        mono: ['"JetBrains Mono"', '"Roboto Mono"', 'monospace'],
       },
       backgroundImage: {
         'grid-fade': 'linear-gradient(180deg, rgba(56,189,248,0.06) 0%, transparent 60%)',
