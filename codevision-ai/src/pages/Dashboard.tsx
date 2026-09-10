@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
-  GitBranch, ShieldAlert, Bug, Gauge, ArrowRight, Star, Plus, RefreshCw,
+  GitBranch, ShieldAlert, Bug, ArrowRight, Star, Plus, RefreshCw,
   FileCode, Sparkles, CheckCircle2, AlertCircle, Lightbulb, FolderGit2,
-  Clock, ShieldCheck, ChevronRight, Wand2
+  Clock, ChevronRight, Wand2
 } from 'lucide-react'
 import AppShell from '../components/AppShell'
 import StatCard from '../components/StatCard'
@@ -21,14 +21,14 @@ interface ActivityItem {
   link: string
 }
 
-const recentActivities: ActivityItem[] = [
+const fallbackActivities: ActivityItem[] = [
   {
     id: 'act-1',
     file: 'python_script.py',
     language: 'Python',
     issuesCount: 2,
     status: 'issues',
-    time: '10 mins ago',
+    time: '2 hours ago',
     link: '/app/analyzer',
   },
   {
@@ -37,31 +37,26 @@ const recentActivities: ActivityItem[] = [
     language: 'JavaScript',
     issuesCount: 0,
     status: 'clean',
-    time: '1 hour ago',
+    time: '5 hours ago',
     link: '/app/review',
   },
   {
     id: 'act-3',
     file: 'data_processing.py',
     language: 'Python',
-    issuesCount: 1,
+    issuesCount: 3,
     status: 'issues',
-    time: '3 hours ago',
-    link: '/app/analyzer',
-  },
-  {
-    id: 'act-4',
-    file: 'auth_service.ts',
-    language: 'TypeScript',
-    issuesCount: 2,
-    status: 'issues',
-    time: 'Yesterday',
+    time: '1 day ago',
     link: '/app/analyzer',
   },
 ]
 
 export default function Dashboard() {
   const [stats, setStats] = useState<DashboardStats>({
+    total_reviews: 12,
+    issues_found: 8,
+    suggestions: 10,
+    projects: 4,
     connected_repositories: 4,
     open_issues: 8,
     critical_findings: 3,
@@ -69,19 +64,34 @@ export default function Dashboard() {
   })
   const [repoList, setRepoList] = useState<Repository[]>(mockRepos)
   const [findings, setFindings] = useState<ReviewItem[]>(mockIssues)
+  const [recentActivities, setRecentActivities] = useState<ActivityItem[]>(fallbackActivities)
   const [loading, setLoading] = useState(false)
 
   const fetchData = async () => {
     setLoading(true)
     try {
-      const [s, r, f] = await Promise.all([
+      const [s, r, f, h] = await Promise.all([
         api.getStats().catch(() => null),
         api.getRepositories().catch(() => null),
         api.getReviews().catch(() => null),
+        api.getHistory().catch(() => null),
       ])
       if (s) setStats(s)
       if (r && r.length > 0) setRepoList(r)
       if (f && f.length > 0) setFindings(f)
+      if (h && h.length > 0) {
+        setRecentActivities(
+          h.slice(0, 4).map((item, idx) => ({
+            id: String(item.id || idx),
+            file: item.title,
+            language: item.language || 'Python',
+            issuesCount: item.findings_count,
+            status: item.findings_count === 0 ? 'clean' : 'issues',
+            time: item.created_at || 'Recently',
+            link: '/app/analyzer',
+          }))
+        )
+      }
     } finally {
       setLoading(false)
     }
@@ -128,7 +138,7 @@ export default function Dashboard() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard
           label="Total Reviews"
-          value="12"
+          value={String(stats.total_reviews ?? 12)}
           delta="+2 this week"
           icon={FileCode}
           tone="blue"
@@ -136,7 +146,7 @@ export default function Dashboard() {
         />
         <StatCard
           label="Issues Found"
-          value={String(stats.open_issues || 8)}
+          value={String(stats.issues_found ?? stats.open_issues ?? 8)}
           delta={`${stats.critical_findings || 3} High • 5 Low`}
           icon={Bug}
           tone="amber"
@@ -144,7 +154,7 @@ export default function Dashboard() {
         />
         <StatCard
           label="Suggestions"
-          value="10"
+          value={String(stats.suggestions ?? 10)}
           delta="7 Applied"
           icon={Lightbulb}
           tone="violet"
@@ -152,7 +162,7 @@ export default function Dashboard() {
         />
         <StatCard
           label="Projects"
-          value={String(stats.connected_repositories || 4)}
+          value={String(stats.projects ?? stats.connected_repositories ?? 4)}
           delta="All active"
           icon={FolderGit2}
           tone="green"
@@ -201,14 +211,14 @@ export default function Dashboard() {
                     </div>
                     <div className="min-w-0">
                       <p className="text-sm font-semibold text-ink-hi truncate font-mono">
-                        {act.file}
+                        Analyzed {act.file}
                       </p>
                       <div className="flex items-center gap-2 text-xs text-ink-low mt-0.5">
                         <span>{act.language}</span>
                         <span>•</span>
                         {act.status === 'clean' ? (
                           <span className="text-emerald-400 font-medium flex items-center gap-1">
-                            <CheckCircle2 size={12} /> Clean (0 issues)
+                            <CheckCircle2 size={12} /> No issues found
                           </span>
                         ) : (
                           <span className="text-amber-400 font-medium flex items-center gap-1">
@@ -233,7 +243,7 @@ export default function Dashboard() {
           </div>
 
           <div className="mt-5 pt-4 border-t border-base-border flex items-center justify-between">
-            <span className="text-xs text-ink-low">Showing 4 most recent runs</span>
+            <span className="text-xs text-ink-low">Showing latest runs</span>
             <Link
               to="/app/history"
               className="text-xs text-sky-400 hover:text-sky-300 font-medium"
@@ -255,45 +265,50 @@ export default function Dashboard() {
           <div className="absolute -bottom-16 -left-16 w-40 h-40 rounded-full bg-purple-500/20 blur-2xl pointer-events-none" />
 
           <div>
-            {/* 3D Glowing Tech Icon Graphic */}
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-sky-400/20 to-purple-400/20 border border-sky-400/40 flex items-center justify-center mb-4 shadow-lg shadow-sky-500/10 relative">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-sky-400 to-purple-400 flex items-center justify-center text-white shadow-md">
-                <Sparkles size={18} />
+            {/* 3D Isometric Server/Cube Graphic from Mockup #4 */}
+            <div className="w-full flex items-center justify-center py-4 relative">
+              <div className="relative w-28 h-28 flex items-center justify-center">
+                {/* Glowing neon halo */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-sky-400 to-purple-500 rounded-3xl opacity-25 blur-xl animate-pulse" />
+                
+                {/* 3D Isometric Server/Cube Illustration */}
+                <svg viewBox="0 0 120 120" className="w-24 h-24 drop-shadow-[0_0_20px_rgba(56,189,248,0.4)]">
+                  <defs>
+                    <linearGradient id="cubeTop" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#7dd3fc" />
+                      <stop offset="100%" stopColor="#c084fc" />
+                    </linearGradient>
+                    <linearGradient id="cubeLeft" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#0284c7" />
+                      <stop offset="100%" stopColor="#1e1b4b" />
+                    </linearGradient>
+                    <linearGradient id="cubeRight" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#7e22ce" />
+                      <stop offset="100%" stopColor="#0f172a" />
+                    </linearGradient>
+                  </defs>
+                  {/* Isometric cube faces */}
+                  <polygon points="60,20 95,40 60,60 25,40" fill="url(#cubeTop)" />
+                  <polygon points="25,40 60,60 60,100 25,80" fill="url(#cubeLeft)" />
+                  <polygon points="60,60 95,40 95,80 60,100" fill="url(#cubeRight)" />
+                  
+                  {/* Glowing neon circuitry lines */}
+                  <line x1="60" y1="60" x2="60" y2="100" stroke="#38bdf8" strokeWidth="1.5" opacity="0.8" />
+                  <line x1="35" y1="52" x2="50" y2="60" stroke="#38bdf8" strokeWidth="1.5" opacity="0.8" />
+                  <line x1="85" y1="52" x2="70" y2="60" stroke="#c084fc" strokeWidth="1.5" opacity="0.8" />
+                  <circle cx="60" cy="40" r="4" fill="#ffffff" />
+                  <circle cx="42" cy="72" r="2.5" fill="#38bdf8" />
+                  <circle cx="78" cy="72" r="2.5" fill="#c084fc" />
+                </svg>
               </div>
-              <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500" />
-              </span>
             </div>
 
-            <h2 className="font-display font-bold text-xl text-ink-hi mb-2">
+            <h2 className="font-display font-bold text-2xl text-ink-hi mb-1 text-center">
               Keep Improving
             </h2>
-            <p className="text-xs sm:text-sm text-ink-mid leading-relaxed mb-6">
-              Analyze your code regularly to catch issues early and maintain clean, safe code.
+            <p className="text-xs sm:text-sm text-ink-mid leading-relaxed mb-6 text-center font-medium">
+              Clean code. Better solutions. Brighter tomorrow.
             </p>
-
-            {/* Quick benefit bullet points */}
-            <div className="space-y-2.5 mb-6">
-              <div className="flex items-center gap-2.5 text-xs text-ink-hi">
-                <div className="w-5 h-5 rounded-full bg-sky-500/15 border border-sky-400/30 flex items-center justify-center text-sky-400 font-bold shrink-0">
-                  ✓
-                </div>
-                <span>Catch vulnerabilities before deployment</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-xs text-ink-hi">
-                <div className="w-5 h-5 rounded-full bg-purple-500/15 border border-purple-400/30 flex items-center justify-center text-purple-400 font-bold shrink-0">
-                  ✓
-                </div>
-                <span>Understand issues in simple plain English</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-xs text-ink-hi">
-                <div className="w-5 h-5 rounded-full bg-emerald-500/15 border border-emerald-400/30 flex items-center justify-center text-emerald-400 font-bold shrink-0">
-                  ✓
-                </div>
-                <span>Apply AI-generated fixes in 1 click</span>
-              </div>
-            </div>
           </div>
 
           <Link

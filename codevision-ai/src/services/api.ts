@@ -65,6 +65,10 @@ export interface ReviewItem {
 }
 
 export interface DashboardStats {
+  total_reviews?: number
+  issues_found?: number
+  suggestions?: number
+  projects?: number
   connected_repositories: number
   open_issues: number
   critical_findings: number
@@ -167,6 +171,19 @@ export const api = {
       body: JSON.stringify({ issue_id: issueId, action }),
     })
     if (!res.ok) throw new Error('Could not apply fix')
+    return res.json()
+  },
+
+  async getHistory(): Promise<Array<{
+    id: string
+    title: string
+    language: string
+    score: number
+    findings_count: number
+    created_at: string
+  }>> {
+    const res = await fetch(`${API_BASE_URL}/history`, { headers: getAuthHeaders() })
+    if (!res.ok) return []
     return res.json()
   },
 }

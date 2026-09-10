@@ -13,7 +13,7 @@ export default function Topbar({ title, subtitle }: { title: string; subtitle?: 
 
   const initials = user?.full_name
     ? user.full_name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
-    : 'CV'
+    : 'AS'
 
   const handleLogout = () => {
     logout()
@@ -36,7 +36,7 @@ export default function Topbar({ title, subtitle }: { title: string; subtitle?: 
         <div className="flex items-center gap-3">
           <div className="hidden sm:flex items-center gap-2 bg-base-surface2 border border-base-border rounded-xl px-3 py-2 w-60">
             <Search size={14} className="text-ink-low" />
-            <input placeholder="Search repos, findings…" className="bg-transparent text-xs outline-none placeholder:text-ink-low w-full text-ink-hi" />
+            <input placeholder="Search..." className="bg-transparent text-xs outline-none placeholder:text-ink-low w-full text-ink-hi" />
           </div>
 
           <ThemeToggle />

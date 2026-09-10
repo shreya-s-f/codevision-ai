@@ -43,9 +43,10 @@ export default {
         },
       },
       fontFamily: {
-        display: ['"Space Grotesk"', 'sans-serif'],
-        body: ['"Inter"', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'monospace'],
+        display: ['"Syne"', 'sans-serif'],
+        sans: ['"Urbanist"', 'sans-serif'],
+        body: ['"Urbanist"', 'sans-serif'],
+        mono: ['"Roboto Mono"', 'monospace'],
       },
       backgroundImage: {
         'grid-fade': 'linear-gradient(180deg, rgba(56,189,248,0.06) 0%, transparent 60%)',

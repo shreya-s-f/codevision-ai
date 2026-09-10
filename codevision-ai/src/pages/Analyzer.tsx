@@ -10,8 +10,12 @@ import AppShell from '../components/AppShell'
 import { api, AnalyzeResult, ReviewFinding } from '../services/api'
 
 const defaultSnippet = `def calculate(a, b):
-    result = a / b
-    return result`
+    if b == 0:
+        return "Error"
+    return a / b
+
+result = calculate(10, 0)
+print(result)`
 
 const severityMeta: Record<string, { label: string; color: string; bg: string }> = {
   critical: { label: 'Critical Severity', color: '#ef4444', bg: 'rgba(239,68,68,0.12)' },

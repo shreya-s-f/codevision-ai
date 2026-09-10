@@ -38,7 +38,7 @@
   body {
     background-color: var(--bg);
     color: var(--ink-hi);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Urbanist', -apple-system, BlinkMacSystemFont, sans-serif;
     transition: background-color 0.25s ease, color 0.25s ease;
     overflow-x: hidden;
   }

@@ -361,34 +361,44 @@ export default function Landing() {
             desc="CodeVision.ai simplifies code review so you can ship quality software faster."
           />
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-14">
-            <div className="card p-6 border-sky-400/20 hover:border-sky-400/50 transition-all">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-14">
+            <div className="card p-6 border-sky-400/20 hover:border-sky-400/50 transition-all card-hover">
               <div className="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-400/30 flex items-center justify-center text-sky-400 mb-4">
                 <Bug size={18} />
               </div>
               <h3 className="h-display text-base font-semibold mb-2">Code Analysis</h3>
               <p className="text-xs text-ink-mid leading-relaxed">
-                Check your code and find possible problems, security vulnerabilities, and logic defects before merging.
+                Check code for possible problems, vulnerabilities, and syntax errors automatically.
               </p>
             </div>
 
-            <div className="card p-6 border-purple-400/20 hover:border-purple-400/50 transition-all">
+            <div className="card p-6 border-purple-400/20 hover:border-purple-400/50 transition-all card-hover">
               <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-400/30 flex items-center justify-center text-purple-400 mb-4">
                 <MessageSquare size={18} />
               </div>
-              <h3 className="h-display text-base font-semibold mb-2">Understand Problems</h3>
+              <h3 className="h-display text-base font-semibold mb-2">Problem Explanation</h3>
               <p className="text-xs text-ink-mid leading-relaxed">
-                Get simple, plain English explanations of why an issue matters and how it could affect your app.
+                Understand what went wrong in simple English without confusing technical jargon.
               </p>
             </div>
 
-            <div className="card p-6 border-indigo-400/20 hover:border-indigo-400/50 transition-all">
+            <div className="card p-6 border-indigo-400/20 hover:border-indigo-400/50 transition-all card-hover">
               <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-400/30 flex items-center justify-center text-indigo-400 mb-4">
                 <Sparkles size={18} />
               </div>
-              <h3 className="h-display text-base font-semibold mb-2">Smart Suggestions</h3>
+              <h3 className="h-display text-base font-semibold mb-2">Suggestions</h3>
               <p className="text-xs text-ink-mid leading-relaxed">
-                Receive ready-to-use code patches with clear before-and-after diffs you can review and adopt.
+                Get suggestions and ready-to-use code patches to improve your codebase immediately.
+              </p>
+            </div>
+
+            <div className="card p-6 border-cyan-400/20 hover:border-cyan-400/50 transition-all card-hover">
+              <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center text-cyan-400 mb-4">
+                <Code2 size={18} />
+              </div>
+              <h3 className="h-display text-base font-semibold mb-2">Better Code</h3>
+              <p className="text-xs text-ink-mid leading-relaxed">
+                Use the review results to improve your code, prevent bugs, and write safer software.
               </p>
             </div>
           </div>
