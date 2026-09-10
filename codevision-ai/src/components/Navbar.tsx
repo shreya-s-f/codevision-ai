@@ -9,7 +9,6 @@ const links = [
   { label: 'Home', href: '#hero' },
   { label: 'Features', href: '#features' },
   { label: 'How It Works', href: '#workflow' },
-  { label: 'About', href: '#about' },
 ]
 
 export default function Navbar() {

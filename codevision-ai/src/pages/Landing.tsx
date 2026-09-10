@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import {
   ArrowRight, Bug, MessageSquare, Sparkles, Code2, Play, Pause,
-  CheckCircle2, ShieldCheck, FileCode, Users, GraduationCap
+  CheckCircle2, ShieldCheck, FileCode
 } from 'lucide-react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -16,26 +16,26 @@ import { techStack } from '../data/mock'
 const fourFeaturePills = [
   {
     icon: Bug,
-    title: 'Find Issues in Your Code',
-    desc: 'Catches runtime errors, logic bugs, and security risks automatically.',
+    line1: 'Find Issues',
+    line2: 'in Your Code',
     tone: 'text-sky-400 border-sky-400/30 bg-sky-500/10',
   },
   {
     icon: MessageSquare,
-    title: 'Get Simple Explanations',
-    desc: 'Explains what is wrong in plain English so you can understand right away.',
+    line1: 'Get Simple',
+    line2: 'Explanations',
     tone: 'text-purple-400 border-purple-400/30 bg-purple-500/10',
   },
   {
     icon: Sparkles,
-    title: 'Receive Smart Suggestions',
-    desc: 'Provides practical, AI-synthesized code fixes ready to apply.',
+    line1: 'Receive',
+    line2: 'Smart Suggestions',
     tone: 'text-indigo-400 border-indigo-400/30 bg-indigo-500/10',
   },
   {
     icon: Code2,
-    title: 'Write Better Code',
-    desc: 'Helps you build safer, cleaner, and more reliable applications.',
+    line1: 'Write Better',
+    line2: 'Code',
     tone: 'text-cyan-400 border-cyan-400/30 bg-cyan-500/10',
   },
 ]
@@ -271,22 +271,22 @@ export default function Landing() {
         </div>
 
         {/* 4 FEATURE CARDS STRIP AT BOTTOM OF HERO MATCHING REFERENCE IMAGE */}
-        <div className="container-xl relative z-10 mt-14 sm:mt-20">
+        <div className="container-xl relative z-10 mt-10 sm:mt-14">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {fourFeaturePills.map((card, i) => (
               <motion.div
-                key={card.title}
+                key={card.line1}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.3 + i * 0.08 }}
-                className="card p-4.5 rounded-2xl border border-base-border bg-base-surface/75 backdrop-blur-md hover:border-sky-400/40 hover:-translate-y-1 transition-all duration-300 flex items-start gap-3.5 shadow-xs"
+                className="card p-4 rounded-xl border border-sky-400/20 bg-base-surface/80 backdrop-blur-md hover:border-sky-400/50 hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-3.5 shadow-xs"
               >
-                <div className={`w-9 h-9 rounded-xl border flex items-center justify-center shrink-0 mt-0.5 ${card.tone}`}>
-                  <card.icon size={17} />
+                <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 ${card.tone}`}>
+                  <card.icon size={19} />
                 </div>
-                <div>
-                  <h3 className="h-display text-sm font-semibold text-ink-hi mb-1">{card.title}</h3>
-                  <p className="text-xs text-ink-mid leading-relaxed">{card.desc}</p>
+                <div className="leading-snug min-w-0">
+                  <p className="font-display text-sm font-bold text-ink-hi truncate">{card.line1}</p>
+                  <p className="font-display text-xs sm:text-sm font-medium text-ink-mid truncate">{card.line2}</p>
                 </div>
               </motion.div>
             ))}
@@ -405,52 +405,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ABOUT / ACADEMIC CREDENTIALS */}
-      <section id="about" className="py-20 bg-base-surface/40 border-t border-base-border">
-        <div className="container-xl">
-          <div className="card p-8 border-sky-400/20 bg-base-surface/70 backdrop-blur-md">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-6 border-b border-base-border">
-              <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-400/30 bg-sky-500/10 text-sky-400 text-xs font-mono mb-2">
-                  <GraduationCap size={14} /> Final Year Engineering Project
-                </div>
-                <h3 className="h-display text-xl font-bold text-ink-hi">Basaveshwar Engineering College Bagalkote</h3>
-                <p className="text-xs text-ink-mid mt-0.5">
-                  Department of Information Science and Engineering • Project ID: 22UIS717P
-                </p>
-              </div>
-              <div className="text-xs font-mono text-ink-low md:text-right">
-                <span className="text-sky-400 font-semibold block">Project Guide:</span>
-                Prof. Deepa I. K. (Assistant Professor)
-              </div>
-            </div>
 
-            <div className="pt-6">
-              <span className="text-xs font-mono text-ink-low uppercase tracking-wider block mb-3">
-                Project Associates:
-              </span>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-                <div className="p-3 rounded-xl border border-base-border bg-base-surface2/50">
-                  <p className="font-semibold text-ink-hi">Ranjita Benakatti</p>
-                  <p className="font-mono text-ink-low text-[11px]">2BA23IS073</p>
-                </div>
-                <div className="p-3 rounded-xl border border-base-border bg-base-surface2/50">
-                  <p className="font-semibold text-ink-hi">Shreya Suresh Fakirapur</p>
-                  <p className="font-mono text-ink-low text-[11px]">2BA23IS088</p>
-                </div>
-                <div className="p-3 rounded-xl border border-base-border bg-base-surface2/50">
-                  <p className="font-semibold text-ink-hi">Prajwal Joshi</p>
-                  <p className="font-mono text-ink-low text-[11px]">2BA24IS407</p>
-                </div>
-                <div className="p-3 rounded-xl border border-base-border bg-base-surface2/50">
-                  <p className="font-semibold text-ink-hi">Preetam Joshi</p>
-                  <p className="font-mono text-ink-low text-[11px]">2BA24IS408</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* BOTTOM CALL TO ACTION */}
       <section className="py-24 text-center border-t border-base-border relative overflow-hidden">
