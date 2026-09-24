@@ -16,6 +16,7 @@ import Analyzer from './pages/Analyzer'
 import Reports from './pages/Reports'
 import ModulesView from './pages/ModulesView'
 import CommandPalette from './components/CommandPalette'
+import VSCodeStudio from './pages/VSCodeStudio'
 
 export default function App() {
   return (
@@ -28,14 +29,17 @@ export default function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/docs" element={<Docs />} />
         <Route path="/modules" element={<ModulesView />} />
+        <Route path="/ide" element={<VSCodeStudio />} />
+        <Route path="/vscode" element={<VSCodeStudio />} />
 
         <Route path="/app" element={<Dashboard />} />
+        <Route path="/app/vscode" element={<VSCodeStudio />} />
         <Route path="/app/modules" element={<ModulesView />} />
         <Route path="/app/repositories" element={<Repositories />} />
         <Route path="/app/review" element={<ReviewResults />} />
         <Route path="/app/fixes" element={<Fixes />} />
         <Route path="/app/insights" element={<Insights />} />
-        <Route path="/app/analyzer" element={<Analyzer />} />
+        <Route path="/app/analyzer" element={<VSCodeStudio />} />
         <Route path="/app/reports" element={<Reports />} />
         <Route path="/app/history" element={<History />} />
         <Route path="/app/settings" element={<SettingsPage />} />

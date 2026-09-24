@@ -305,4 +305,38 @@ export const api = {
     if (!res.ok) throw new Error('Academic report fetch failed')
     return res.json()
   },
+
+  async pushFixToGitHub(params: {
+    repo_name?: string
+    file_path: string
+    fixed_code: string
+    issue_title?: string
+    branch_name?: string
+    github_token?: string
+  }): Promise<{
+    success: boolean
+    repository: string
+    file_path: string
+    branch: string
+    commit_sha: string
+    commit_message: string
+    commit_url: string
+    pr_url: string
+    message: string
+  }> {
+    const res = await fetch(`${API_BASE_URL}/modules/github-pr/push-fix`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        repo_name: params.repo_name || 'shreya-s-f/codevision-ai',
+        file_path: params.file_path,
+        fixed_code: params.fixed_code,
+        issue_title: params.issue_title || 'AI Suggested Code Fix',
+        branch_name: params.branch_name,
+        github_token: params.github_token,
+      }),
+    })
+    if (!res.ok) throw new Error('Failed to push fix to GitHub')
+    return res.json()
+  },
 }

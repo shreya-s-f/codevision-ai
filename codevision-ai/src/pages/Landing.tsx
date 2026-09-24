@@ -244,16 +244,23 @@ export default function Landing() {
               CodeVision.ai helps developers check their code, find possible problems, understand errors, and improve their code with helpful suggestions.
             </p>
 
-            {/* Two Action Buttons matching reference */}
+            {/* Action Buttons */}
             <div className="flex flex-wrap items-center gap-4">
-              <Link to="/signup" className="btn-primary !py-3.5 !px-8 rounded-full text-base font-semibold shadow-glow flex items-center gap-2">
+              <Link to="/ide" className="btn-primary !py-3.5 !px-7 rounded-full text-base font-semibold shadow-glow flex items-center gap-2">
+                <Code2 size={18} />
+                Open VS Code AI IDE
+              </Link>
+              <Link
+                to="/signup"
+                className="btn-secondary !py-3.5 !px-6 rounded-full text-sm font-semibold border-sky-400/40 text-sky-400 hover:bg-sky-500/10 flex items-center gap-2"
+              >
                 Get Started →
               </Link>
               <a
                 href="#workflow"
-                className="btn-secondary !py-3 !px-6 rounded-full text-sm font-medium border-base-border hover:border-sky-400/50"
+                className="btn-secondary !py-3.5 !px-6 rounded-full text-sm font-medium border-base-border hover:border-purple-400/50"
               >
-                Learn How It Works
+                How It Works
               </a>
             </div>
           </motion.div>

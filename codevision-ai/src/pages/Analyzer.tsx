@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   Wand2, RotateCcw, ClipboardPaste, Loader2, ShieldAlert, Bug, Gauge,
   Layers, CheckCircle2, FileCode, Cpu, Terminal, Copy, Check, ArrowLeft,
-  Sparkles, CheckCheck, Lightbulb, ChevronRight
+  Sparkles, CheckCheck, Lightbulb, ChevronRight, GitPullRequest, GitCommit, ExternalLink, X
 } from 'lucide-react'
 import AppShell from '../components/AppShell'
 import { api, AnalyzeResult, ReviewFinding } from '../services/api'
@@ -38,6 +38,8 @@ export default function Analyzer() {
   const [loading, setLoading] = useState(false)
   const [appliedFixId, setAppliedFixId] = useState<string | null>(null)
   const [copiedTestIdx, setCopiedTestIdx] = useState<number | null>(null)
+  const [pushingFixId, setPushingFixId] = useState<string | null>(null)
+  const [pushedModal, setPushedModal] = useState<any | null>(null)
 
   const runAnalysis = async () => {
     if (!code.trim()) return
@@ -98,6 +100,24 @@ export default function Analyzer() {
       setCode(finding.after_code)
       setAppliedFixId(finding.id)
       setTimeout(() => setAppliedFixId(null), 2500)
+    }
+  }
+
+  const handlePushToGitHub = async (finding: ReviewFinding) => {
+    setPushingFixId(finding.id)
+    try {
+      const fixedContent = finding.after_code || code
+      const res = await api.pushFixToGitHub({
+        repo_name: 'shreya-s-f/codevision-ai',
+        file_path: 'calculate.py',
+        fixed_code: fixedContent,
+        issue_title: finding.title,
+      })
+      setPushedModal(res)
+    } catch (err: any) {
+      alert(err.message || 'Push failed')
+    } finally {
+      setPushingFixId(null)
     }
   }
 
@@ -348,30 +368,50 @@ export default function Analyzer() {
                           </div>
                         )}
 
-                        {/* Apply Fix button */}
-                        <div className="flex items-center justify-between pt-1">
+                        {/* Apply Fix & Push to GitHub buttons */}
+                        <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
                           <span className="text-[11px] text-ink-low">
                             {f.suggestion}
                           </span>
-                          <button
-                            type="button"
-                            onClick={() => handleApplyFix(f)}
-                            className={`text-xs px-3 py-1.5 rounded-lg border font-medium transition-all flex items-center gap-1.5 shrink-0 ${
-                              isApplied
-                                ? 'border-emerald-500 bg-emerald-500/20 text-emerald-300'
-                                : 'border-sky-400/30 bg-sky-500/10 text-sky-400 hover:bg-sky-500/20'
-                            }`}
-                          >
-                            {isApplied ? (
-                              <>
-                                <CheckCheck size={13} /> Fix Applied
-                              </>
-                            ) : (
-                              <>
-                                <Wand2 size={13} /> Apply Fix
-                              </>
-                            )}
-                          </button>
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() => handleApplyFix(f)}
+                              className={`text-xs px-3 py-1.5 rounded-lg border font-medium transition-all flex items-center gap-1.5 shrink-0 ${
+                                isApplied
+                                  ? 'border-emerald-500 bg-emerald-500/20 text-emerald-300'
+                                  : 'border-sky-400/30 bg-sky-500/10 text-sky-400 hover:bg-sky-500/20'
+                              }`}
+                            >
+                              {isApplied ? (
+                                <>
+                                  <CheckCheck size={13} /> Fix Applied
+                                </>
+                              ) : (
+                                <>
+                                  <Wand2 size={13} /> Apply Fix
+                                </>
+                              )}
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => handlePushToGitHub(f)}
+                              disabled={pushingFixId === f.id}
+                              className="text-xs px-3 py-1.5 rounded-lg border border-purple-400/30 bg-purple-500/15 text-purple-300 hover:bg-purple-500/25 font-semibold transition-all flex items-center gap-1.5 shrink-0 disabled:opacity-50 shadow-xs"
+                              title="Commit & Push this AI fix directly to GitHub in real time"
+                            >
+                              {pushingFixId === f.id ? (
+                                <>
+                                  <Loader2 size={13} className="animate-spin text-purple-300" /> Pushing...
+                                </>
+                              ) : (
+                                <>
+                                  <GitPullRequest size={13} className="text-purple-400" /> Push to GitHub
+                                </>
+                              )}
+                            </button>
+                          </div>
                         </div>
                       </motion.div>
                     )
@@ -416,6 +456,82 @@ export default function Analyzer() {
           </AnimatePresence>
         </div>
       </div>
+
+      {/* Real-time GitHub Push Success Modal */}
+      <AnimatePresence>
+        {pushedModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="w-full max-w-lg rounded-2xl bg-base-surface border border-purple-500/40 p-6 shadow-2xl space-y-5 text-ink-hi"
+            >
+              <div className="flex items-center justify-between pb-3 border-b border-base-border">
+                <div className="flex items-center gap-2.5 text-purple-400 font-bold text-base">
+                  <span className="p-2 rounded-xl bg-purple-500/10 border border-purple-500/30">
+                    <GitCommit className="w-5 h-5" />
+                  </span>
+                  <span>Pushed to GitHub in Real Time!</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setPushedModal(null)}
+                  className="p-1.5 rounded-lg text-ink-mid hover:text-ink-hi hover:bg-base-surface2 transition-colors"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              <p className="text-xs text-ink-mid leading-relaxed">
+                CodeVision.ai created a dedicated fix branch, committed the validated AI patch, and pushed it to your remote repository in real time.
+              </p>
+
+              <div className="space-y-2.5 text-xs font-mono">
+                <div className="p-3 rounded-xl bg-base-bg border border-base-border space-y-1">
+                  <span className="text-[10px] text-ink-low uppercase tracking-wider block">Repository</span>
+                  <span className="text-sky-400 font-semibold">{pushedModal.repository}</span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2.5">
+                  <div className="p-3 rounded-xl bg-base-bg border border-base-border space-y-1">
+                    <span className="text-[10px] text-ink-low uppercase tracking-wider block">Target Branch</span>
+                    <span className="text-purple-300 font-semibold truncate block">{pushedModal.branch}</span>
+                  </div>
+                  <div className="p-3 rounded-xl bg-base-bg border border-base-border space-y-1">
+                    <span className="text-[10px] text-ink-low uppercase tracking-wider block">Commit SHA</span>
+                    <span className="text-emerald-400 font-semibold">{pushedModal.commit_sha}</span>
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-base-bg border border-base-border space-y-1">
+                  <span className="text-[10px] text-ink-low uppercase tracking-wider block">Commit Message</span>
+                  <span className="text-ink-mid">{pushedModal.commit_message}</span>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+                <a
+                  href={pushedModal.commit_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full sm:flex-1 flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-base-surface2 hover:bg-base-surface2/80 text-xs font-semibold text-ink-hi border border-base-border transition-all"
+                >
+                  <GitCommit size={14} /> View Commit <ExternalLink size={12} />
+                </a>
+                <a
+                  href={pushedModal.pr_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full sm:flex-1 flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-gradient-to-r from-purple-500 via-indigo-500 to-sky-500 hover:opacity-95 text-xs font-bold text-white shadow-lg shadow-purple-500/20 transition-all"
+                >
+                  <GitPullRequest size={14} /> Open Pull Request <ExternalLink size={12} />
+                </a>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </AppShell>
   )
 }

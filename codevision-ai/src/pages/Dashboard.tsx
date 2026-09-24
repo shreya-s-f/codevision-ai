@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import {
   GitBranch, ShieldAlert, Bug, ArrowRight, Star, Plus, RefreshCw,
   FileCode, Sparkles, CheckCircle2, AlertCircle, Lightbulb, FolderGit2,
-  Clock, ChevronRight, Wand2
+  Clock, ChevronRight, Wand2, Code2
 } from 'lucide-react'
 import AppShell from '../components/AppShell'
 import StatCard from '../components/StatCard'
@@ -132,6 +132,33 @@ export default function Dashboard() {
             Start Review
           </Link>
         </div>
+      </div>
+
+      {/* VS Code Studio Launch Banner */}
+      <div className="mb-6 p-4 rounded-2xl border border-sky-400/30 bg-gradient-to-r from-sky-500/10 via-purple-500/10 to-indigo-500/10 flex flex-wrap items-center justify-between gap-4 shadow-glow">
+        <div className="flex items-center gap-3.5">
+          <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-sky-400 to-purple-500 flex items-center justify-center text-black font-bold shadow-md shrink-0">
+            <Code2 size={24} />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-sm text-ink-hi">CodeVision.ai VS Code Studio</span>
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-purple-500/20 text-purple-300 border border-purple-400/30">
+                Course 22UIS717P
+              </span>
+            </div>
+            <p className="text-xs text-ink-mid">
+              Explore your codebase in the full VS Code interface with Semgrep AST squigglies, AI reasoning, side-by-side diffs, and automated Pytest execution.
+            </p>
+          </div>
+        </div>
+        <Link
+          to="/ide"
+          className="btn-primary !py-2 !px-5 text-xs font-mono font-bold rounded-xl flex items-center gap-2 shadow-glow"
+        >
+          <span>Launch VS Code IDE</span>
+          <ArrowRight size={13} />
+        </Link>
       </div>
 
       {/* 4 STAT CARDS FROM MOCKUP #4 */}

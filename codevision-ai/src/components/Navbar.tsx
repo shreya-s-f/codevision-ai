@@ -7,10 +7,10 @@ import { useAuth } from '../context/AuthContext'
 
 const links = [
   { label: 'Home', href: '#hero' },
+  { label: '⚡ VS Code IDE', href: '/ide' },
   { label: 'Modules (22UIS717P)', href: '/modules' },
   { label: 'Features', href: '#features' },
   { label: 'How It Works', href: '#workflow' },
-  { label: 'About', href: '#about' },
 ]
 
 export default function Navbar() {
@@ -50,7 +50,13 @@ export default function Navbar() {
         </nav>
 
         {/* Right side controls matching reference */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-3">
+          <Link
+            to="/ide"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono font-bold bg-purple-500/20 text-purple-300 border border-purple-400/40 shadow-glow-purple hover:bg-purple-500/30 transition-all"
+          >
+            <span>⚡ VS Code IDE</span>
+          </Link>
           <ThemeToggle />
           {isAuthenticated ? (
             <Link to="/app" className="btn-primary text-sm !py-2.5 !px-5 rounded-full font-semibold">
