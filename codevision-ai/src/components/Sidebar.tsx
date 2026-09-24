@@ -1,13 +1,14 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard, GitBranch, ShieldCheck, Wrench, History, Settings, LogOut,
-  Wand2, FileText, BookOpen
+  Wand2, FileText, BookOpen, Layers
 } from 'lucide-react'
 import Logo from './Logo'
 import { useAuth } from '../context/AuthContext'
 
 const primaryNav = [
   { to: '/app', label: 'Dashboard', icon: LayoutDashboard, end: true },
+  { to: '/app/modules', label: 'Modules (22UIS717P)', icon: Layers },
   { to: '/app/analyzer', label: 'Code Review', icon: Wand2 },
   { to: '/app/history', label: 'History', icon: History },
   { to: '/app/repositories', label: 'My Projects', icon: GitBranch },

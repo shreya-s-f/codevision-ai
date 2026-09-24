@@ -216,4 +216,93 @@ export const api = {
     if (!res.ok) throw new Error('Pull request review failed')
     return res.json()
   },
+
+  // --- ACADEMIC SYNOPSIS MODULES (22UIS717P) ---
+  async getModulesOverview(): Promise<any> {
+    const res = await fetch(`${API_BASE_URL}/modules/overview`)
+    if (!res.ok) throw new Error('Failed to load modules overview')
+    return res.json()
+  },
+
+  async runModulePipeline(code: string, filename = 'calculate.py', language = 'python'): Promise<any> {
+    const res = await fetch(`${API_BASE_URL}/modules/pipeline-run`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code, filename, language }),
+    })
+    if (!res.ok) throw new Error('Failed to run modules pipeline')
+    return res.json()
+  },
+
+  async getModuleSamples(): Promise<any[]> {
+    const res = await fetch(`${API_BASE_URL}/modules/ingestion/samples`)
+    if (!res.ok) return []
+    return res.json()
+  },
+
+  async runModuleStaticAnalysis(code: string, filename = 'main.py'): Promise<any> {
+    const res = await fetch(`${API_BASE_URL}/modules/static-analysis/run`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code, filename }),
+    })
+    if (!res.ok) throw new Error('Static analysis failed')
+    return res.json()
+  },
+
+  async runModuleAIReasoning(code: string, filename = 'main.py'): Promise<any> {
+    const res = await fetch(`${API_BASE_URL}/modules/ai-reasoning/analyze`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code, filename }),
+    })
+    if (!res.ok) throw new Error('AI reasoning failed')
+    return res.json()
+  },
+
+  async calculateModuleScore(params: { critical_count: number; high_count: number; medium_count: number; low_count: number; total_lines?: number }): Promise<any> {
+    const res = await fetch(`${API_BASE_URL}/modules/scoring/calculate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(params),
+    })
+    if (!res.ok) throw new Error('Scoring failed')
+    return res.json()
+  },
+
+  async generateModuleFix(original_code: string): Promise<any> {
+    const res = await fetch(`${API_BASE_URL}/modules/fix-generator/generate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ original_code }),
+    })
+    if (!res.ok) throw new Error('Fix generation failed')
+    return res.json()
+  },
+
+  async generateModuleTests(code: string): Promise<any> {
+    const res = await fetch(`${API_BASE_URL}/modules/test-synthesis/generate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code }),
+    })
+    if (!res.ok) throw new Error('Test generation failed')
+    return res.json()
+  },
+
+  async runModuleValidationTests(code: string): Promise<any> {
+    const res = await fetch(`${API_BASE_URL}/modules/test-synthesis/run-tests`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code }),
+    })
+    if (!res.ok) throw new Error('Test run failed')
+    return res.json()
+  },
+
+  async getAcademicReport(): Promise<any> {
+    const res = await fetch(`${API_BASE_URL}/modules/reports-history/academic-report`)
+    if (!res.ok) throw new Error('Academic report fetch failed')
+    return res.json()
+  },
 }

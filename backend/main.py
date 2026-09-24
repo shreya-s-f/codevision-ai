@@ -29,6 +29,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Academic Modules Router (Synopsis 22UIS717P)
+from modules.router import api_modules_router
+app.include_router(api_modules_router)
+
 def seed_demo_data(db: Session):
     # Check if demo user exists
     user = db.query(models.User).filter(models.User.email == "shreya@codevision.ai").first()

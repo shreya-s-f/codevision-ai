@@ -7,6 +7,7 @@ import { useAuth } from '../context/AuthContext'
 
 const links = [
   { label: 'Home', href: '#hero' },
+  { label: 'Modules (22UIS717P)', href: '/modules' },
   { label: 'Features', href: '#features' },
   { label: 'How It Works', href: '#workflow' },
   { label: 'About', href: '#about' },

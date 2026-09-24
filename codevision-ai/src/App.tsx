@@ -14,6 +14,7 @@ import Docs from './pages/Docs'
 import Insights from './pages/Insights'
 import Analyzer from './pages/Analyzer'
 import Reports from './pages/Reports'
+import ModulesView from './pages/ModulesView'
 import CommandPalette from './components/CommandPalette'
 
 export default function App() {
@@ -26,8 +27,10 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/docs" element={<Docs />} />
+        <Route path="/modules" element={<ModulesView />} />
 
         <Route path="/app" element={<Dashboard />} />
+        <Route path="/app/modules" element={<ModulesView />} />
         <Route path="/app/repositories" element={<Repositories />} />
         <Route path="/app/review" element={<ReviewResults />} />
         <Route path="/app/fixes" element={<Fixes />} />
